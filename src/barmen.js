@@ -2,8 +2,8 @@
 
 module.exports= {
     Barman: function(cupboard, phone){
-        this.maxFreeVolume = function(){
-          return 100;
+        this.maxFreeVolume = function(drinkName){
+          return drinkName === 'tequila' ? 50 : 100;
         };
 
         this.pour = function(drinkName, volume, client) {
@@ -16,7 +16,7 @@ module.exports= {
             }
 
             if(!cupboard.hasDrink(drinkName, volume)){
-                phone.sendSms(`Need more ${drinkName}`)
+                phone.sendSms(`Need more ${drinkName}`);
                 throw new Error('Not enough ' + drinkName);
             }
 
@@ -42,12 +42,14 @@ module.exports= {
                 throw new Error('Not enough ' + drinkName);
             }
 
-
-            if(volume > this.maxFreeVolume()){
-                debugger;
-                let volumeInGlass = this.pour(drinkName, volume - this.maxFreeVolume(), client);
-                let volumeInGlassForFree = cupboard.getDrink(drinkName, this.maxFreeVolume());
+            if(volume > this.maxFreeVolume(drinkName)){
+                let volumeInGlass = this.pour(drinkName, volume - this.maxFreeVolume(drinkName), client);
+                let volumeInGlassForFree = cupboard.getDrink(drinkName, this.maxFreeVolume(drinkName));
                 return {volumeInGlass:volumeInGlass,volumeInGlassForFree:volumeInGlassForFree};
+            }
+
+            if(drinkName === 'tequila'){
+                return cupboard.getDrink(drinkName, this.maxFreeVolume(drinkName));
             }
 
             return cupboard.getDrink(drinkName, volume);
