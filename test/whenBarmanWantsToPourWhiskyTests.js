@@ -8,16 +8,12 @@ suite('when client ask 200 grams of whisky', function () {
     var client = new Client();
     let drinkName = 'whisky';
     setup(function () {
-        console.log('Client setup');
         client.sober();
     });
 
     /*Bad tests with dependency*/
     suite('barman has enough', function () {
         var barman = new Barman(new Cupboard());
-        setup(function () {
-            console.log('Barman setup');
-        });
         test('barman pour 200 grams of whisky', function () {
 
             var clientAskVolume = 200;
@@ -38,8 +34,4 @@ suite('when client ask 200 grams of whisky', function () {
         });
     });
 
-
-    teardown(function() {
-        console.log('teardown');
-    })
 });

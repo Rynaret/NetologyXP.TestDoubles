@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports= {
-    Barman: function(cupboard){
-        this.pour = function(drinkName, volume, client) {
+    Barman: function(cupboard, phone){
+        this.pour = function(drinkName, volume, client, forFree) {
             if (volume < 0) {
                 throw new Error('Invalid volume of whisky');
             }
@@ -12,9 +12,16 @@ module.exports= {
             }
 
             if(!cupboard.hasDrink(drinkName, volume)){
+                phone.sendSms(`Need more ${drinkName}`)
                 throw new Error('Not enough ' + drinkName);
+            }
+
+            if(forFree){
+                return cupboard.getDrink(drinkName, volume);
             }
 
             return cupboard.getDrink(drinkName, volume);
         };
-    }}
+
+
+    }};

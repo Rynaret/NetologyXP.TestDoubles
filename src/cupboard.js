@@ -15,5 +15,6 @@ module.exports= {
         this.getDrink = function(drinkName, volume) {
             /* Предположим что здесь мы ходим в базу данных*/
             return volume;
-        }
+        };
+
     }};
