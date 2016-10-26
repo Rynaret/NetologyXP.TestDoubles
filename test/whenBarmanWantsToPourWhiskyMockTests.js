@@ -8,6 +8,7 @@ import { Phone} from '../src/phone'
 
 suite('Mock: when client ask 200 grams of whisky', function () {
     let client = new Client();
+    const alcohol = 'whisky';
     setup(function () {
         client.sober();
     });
@@ -23,7 +24,6 @@ suite('Mock: when client ask 200 grams of whisky', function () {
         });
         test('client get 200 grams', function () {
             const askValue = 200;
-            const alcohol = 'whisky';
 
             cupboardMock.expects('hasDrink').once().returns(true);
             cupboardMock.expects('getDrink').once().returns(200);
@@ -52,7 +52,6 @@ suite('Mock: when client ask 200 grams of whisky', function () {
             barman = new Barman(cupboard, phone);
         });
         test('barman send SMS to the boss', function () {
-            const alcohol = 'whisky';
             const askValue = 200;
 
             phoneMock.expects('sendSms').withArgs(`Need more ${alcohol}`).once();
@@ -63,3 +62,44 @@ suite('Mock: when client ask 200 grams of whisky', function () {
         });
     });
 });
+
+suite('Mock: when client is 100 visitor today', function () {
+    let client = new Client();
+    const alcohol = 'whisky';
+    setup(function () {
+        client.sober();
+        client.number = 100;
+    });
+    suite('ask 400 grams whisky', function () {
+        let barman;
+        let barmanMock;
+        let cupboardStub = {
+            hasDrink: () => {
+                return true;
+            },
+            getDrink: (drinkName, volume) => {
+                return volume;
+            }
+        };
+        setup(() => {
+            barman = new Barman(cupboardStub);
+            barmanMock = sinon.mock(barman);
+        });
+
+        test('client get 100 grams for free and 300 not free', function () {
+            const askValue = 400;
+
+            barmanMock.expects('pourForFree').once().returns({volumeInGlass:300,volumeInGlassForFree:100});
+
+            let volumeInGlass = barman.pourForFree(alcohol, askValue, client);
+
+            // что-то ничего не придумал, думаю тут без двух ассертов не обойтись
+            assert.equal(300, volumeInGlass.volumeInGlass);
+            assert.equal(100, volumeInGlass.volumeInGlassForFree);
+
+            barmanMock.restore();
+            barmanMock.verify();
+        })
+    });
+});
+
