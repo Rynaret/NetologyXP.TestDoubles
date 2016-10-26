@@ -71,10 +71,9 @@ suite('Stub: when client is 100 visitor today', function () {
         };
         let barman = new Barman(cupBoardStub);
         test('client get 100 grams for free', function () {
-            const forFree = true;
             const askValue = 100;
 
-            let volumeInGlass = barman.pour(alcohol, askValue, client, forFree);
+            let volumeInGlass = barman.pourForFree(alcohol, askValue, client);
 
             assert.equal(askValue, volumeInGlass);
         })

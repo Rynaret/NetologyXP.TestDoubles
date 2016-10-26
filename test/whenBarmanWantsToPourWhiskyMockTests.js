@@ -63,32 +63,3 @@ suite('Mock: when client ask 200 grams of whisky', function () {
         });
     });
 });
-
-suite('Stub: when client is 100 visitor today', function () {
-    let client = new Client();
-    setup(function () {
-        client.sober();
-        client.number = 100;
-        client.money = 100;
-    });
-    suite('ask 400 grams whisky', function () {
-        const alcohol = 'whisky';
-        const cupBoardStub = {
-            hasDrink: function () {
-                return true;
-            },
-            getDrink: function () {
-                return 100;
-            }
-        };
-        let barman = new Barman(cupBoardStub);
-        test('client get 100 grams for free and 300 for pay', function () {
-            const askValue = 100;
-            let moneyInBegin = client.money;
-
-            barman.pour(alcohol, askValue, client);
-
-            assert.equal(moneyInBegin, client.money);
-        })
-    });
-});
