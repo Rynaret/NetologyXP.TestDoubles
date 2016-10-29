@@ -67,7 +67,7 @@ suite('Fake: when client is 100 visitor today', function () {
                 return alcoholName === 'tequila' ? 50 : 100;
             }
         };
-        let barman = new Barman(cupBoardStub);
+        let barman = new Barman(cupBoardFake);
         test('client get 50 grams tequila for free', function () {
             const askValue = 50;
 
