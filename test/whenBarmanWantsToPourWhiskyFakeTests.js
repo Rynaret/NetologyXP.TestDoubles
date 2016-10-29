@@ -59,7 +59,7 @@ suite('Fake: when client is 100 visitor today', function () {
     });
     suite('ask 50 grams tequila', function () {
         const alcohol = 'tequila';
-        const cupBoardStub = {
+        const cupBoardFake = {
             hasDrink: function (alcoholName) {
                 return alcoholName === 'tequila' || alcoholName === 'whisky';
             },

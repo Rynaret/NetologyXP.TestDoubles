@@ -28,9 +28,7 @@ suite('Mock: when client ask 200 grams of whisky', function () {
             cupboardMock.expects('hasDrink').once().returns(true);
             cupboardMock.expects('getDrink').once().returns(200);
 
-            let result = barman.pour(alcohol, askValue, client);
-
-            assert.equal(askValue, result);
+            barman.pour(alcohol, askValue, client);
 
             cupboardMock.restore();
             cupboardMock.verify();
@@ -91,11 +89,7 @@ suite('Mock: when client is 100 visitor today', function () {
 
             barmanMock.expects('pourForFree').once().returns({volumeInGlass:300,volumeInGlassForFree:100});
 
-            let volumeInGlass = barman.pourForFree(alcohol, askValue, client);
-
-            // что-то ничего не придумал, думаю тут без двух ассертов не обойтись
-            assert.equal(300, volumeInGlass.volumeInGlass);
-            assert.equal(100, volumeInGlass.volumeInGlassForFree);
+            barman.pourForFree(alcohol, askValue, client);
 
             barmanMock.restore();
             barmanMock.verify();
